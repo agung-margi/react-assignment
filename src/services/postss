@@ -1,0 +1,41 @@
+import axios from 'axios';
+
+export const getDataPosts = async () => {
+  try {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    console.log(response.data);
+    return response.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createDataPost = async (title, body) => {
+  try {
+    const response = await axios.post('https://jsonplaceholder.typicode.com/posts', { title, body });
+    console.log(response.data);
+    return response.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const deletePost = async (id) => {
+  try {
+    const response = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updatePost = async (id, title, body) => {
+  try {
+    const response = await axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`, { title, body });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
