@@ -1,39 +1,33 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
+import { Form, Input, Button } from "antd";
 import { useDispatch } from "react-redux";
-import { savePost } from "../redux/slice/postSlice";
-import { useNavigate } from "react-router-dom";
+import { addNewPost } from "../redux/slice/postsSlice";
 
-function AddPost() {
-  const [loading, setLoading] = useState(false);
+const AddPostForm = ({ onFinish }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const createPost = useCallback(
-    async (e) => {
-      e.preventDefault();
-      setLoading(true);
-      await dispatch(savePost({ title, body }));
-      navigate("/");
-      setLoading(false);
-    },
-    [dispatch, navigate, title, body]
-  );
+  const handleAddPost = () => {
+    dispatch(addNewPost({ title, body }));
+    onFinish();
+  };
 
   return (
-    <div className="flex flex-col">
-      <form onSubmit={createPost} className="">
-        <input type="text" name="title" id="" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <br />
-        <input type="text" name="body" id="" placeholder="Body" value={body} onChange={(e) => setBody(e.target.value)} />
-        <div>
-          {loading && <p>Loading...</p>}
-          <button className="">Submit</button>
-        </div>
-      </form>
-    </div>
+    <Form layout="vertical">
+      <Form.Item label="Title">
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+      </Form.Item>
+      <Form.Item label="Body">
+        <Input.TextArea value={body} onChange={(e) => setBody(e.target.value)} />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" onClick={handleAddPost}>
+          Save
+        </Button>
+      </Form.Item>
+    </Form>
   );
-}
+};
 
-export default AddPost;
+export default AddPostForm;

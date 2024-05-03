@@ -1,8 +1,12 @@
 import React from "react";
-import ShowPost from "../components/ShowPost.jsx";
+import PostList from "../components/PostList.jsx";
 
-function Post() {
-  return <ShowPost />;
+function PostPage() {
+  return (
+    <div>
+      <PostList />
+    </div>
+  );
 }
 
-export default Post;
+export default PostPage;

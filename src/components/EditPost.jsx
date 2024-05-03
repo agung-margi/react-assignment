@@ -1,50 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPost, postSelectors, updatePost } from "../redux/slice/postSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Form, Input, Button } from "antd";
+import { useDispatch } from "react-redux";
+import { editExistingPost } from "../redux/slice/postsSlice";
 
-function EditPost() {
-  const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+const EditPostForm = ({ postId, initialTitle, initialBody, onFinish }) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [body, setBody] = useState(initialBody);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  const post = useSelector((state) => postSelectors.selectById(state, id));
-
-  useEffect(() => {
-    dispatch(getPost());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (post) {
-      setTitle(post.title);
-      setBody(post.body);
-    }
-  }, [post]);
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    await dispatch(updatePost({ id, title, body }));
-    setLoading(false);
-    navigate("/");
+  const handleEditPost = () => {
+    dispatch(editExistingPost({ id: postId, title, body }));
+    onFinish();
   };
 
   return (
-    <div className="flex flex-col">
-      <form onSubmit={handleUpdate} className="">
-        <input type="text" name="title" id="" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <br />
-        <input type="text" name="body" id="" placeholder="Body" value={body} onChange={(e) => setBody(e.target.value)} />
-        <div>
-          {loading && <p>Loading...</p>}
-          <button className="">Update</button>
-        </div>
-      </form>
-    </div>
+    <Form layout="vertical">
+      <Form.Item label="Title">
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+      </Form.Item>
+      <Form.Item label="Body">
+        <Input.TextArea value={body} onChange={(e) => setBody(e.target.value)} />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" onClick={handleEditPost}>
+          Save
+        </Button>
+      </Form.Item>
+    </Form>
   );
-}
+};
 
-export default EditPost;
+export default EditPostForm;
