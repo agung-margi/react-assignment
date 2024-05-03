@@ -54,6 +54,10 @@ const PostList = () => {
   ];
 
   useEffect(() => {
+    document.title = "Posts with React";
+  });
+
+  useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
@@ -74,12 +78,7 @@ const PostList = () => {
   };
 
   const handleCloseAddPost = () => {
-    setIsModalOpen(false); // Perbaiki nama variabel menjadi setIsModalOpen
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true); // Mengatur state isModalOpen menjadi true saat tombol "Add Post" diklik
-  };
+    setIsModalOpen(false);
 
   if (status === "loading") {
     return <p>Loading...</p>;
