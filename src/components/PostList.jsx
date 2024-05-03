@@ -80,27 +80,27 @@ const PostList = () => {
   const handleCloseAddPost = () => {
     setIsModalOpen(false);
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
+    if (status === "loading") {
+      return <p>Loading...</p>;
+    }
 
-  return (
-    <>
-      <div>
-        <h1>Posts</h1>
-        <Button onClick={handleAddPost} type="primary">
-          Add Post
-        </Button>
-      </div>
-      <Modal title="Add New Post" open={isModalOpen} onOk={handleAddPost} onCancel={handleCloseAddPost}>
-        <AddPostForm onFinish={handleCloseAddPost} />
-      </Modal>
-      <Table columns={columns} dataSource={list} rowKey="id" />
-      <Modal title="Edit Post" open={editPostId !== null} onCancel={handleCloseEdit} footer={null}>
-        {editPostId !== null && <EditPostForm postId={editPostId} initialTitle={list.find((post) => post.id === editPostId)?.title || ""} initialBody={list.find((post) => post.id === editPostId)?.body || ""} onFinish={handleCloseEdit} />}
-      </Modal>
-    </>
-  );
+    return (
+      <>
+        <div>
+          <h1>Posts</h1>
+          <Button onClick={handleAddPost} type="primary">
+            Add Post
+          </Button>
+        </div>
+        <Modal title="Add New Post" open={isModalOpen} onOk={handleAddPost} onCancel={handleCloseAddPost}>
+          <AddPostForm onFinish={handleCloseAddPost} />
+        </Modal>
+        <Table columns={columns} dataSource={list} rowKey="id" />
+        <Modal title="Edit Post" open={editPostId !== null} onCancel={handleCloseEdit} footer={null}>
+          {editPostId !== null && <EditPostForm postId={editPostId} initialTitle={list.find((post) => post.id === editPostId)?.title || ""} initialBody={list.find((post) => post.id === editPostId)?.body || ""} onFinish={handleCloseEdit} />}
+        </Modal>
+      </>
+    );
+  };
 };
-
 export default PostList;
